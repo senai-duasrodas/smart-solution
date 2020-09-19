@@ -1,5 +1,5 @@
 const GetUserAutentication = require('../integration/getUserAuthentication.js');
-const GetOrderByMonthData = require('../datasource/getOrderLastMonthData');
+const GetOrderByMonthData = require('../datasource/GetOrderLastMonthData');
 
 
 module.exports = class GetOrderSummary {
@@ -18,19 +18,21 @@ module.exports = class GetOrderSummary {
   async run() {
     try {
       await this._validateSession();
-      
+
       const lastMonth = await this._getMonthlyOrder();
 
       return lastMonth;
     } catch (err) {
       throw err;
     } finally {
-      this._getOrderByMonth.closeConnection();
+      await this._getOrderByMonth.closeConnection();
     }
   }
 
   async _getMonthlyOrder() {
     try {
+      await this._getOrderByMonth.createConnection();
+      
       const orders = await this._getOrderByMonth.getOrderLastMonth();
 
       if (!orders) throw 'could not find orders';
