@@ -2,8 +2,11 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
+const errorResponseTreatment = require('../lib/utils');
+
 const summary = require('./summary/get');
 const lastMonth = require('./orderByMonth/get');
+const consultVerification = require('./verificationConsult/get');
 
 const app = express();
 
@@ -19,7 +22,9 @@ app.get('/analysis/order-summary', async (req, res) => {
     
     res.status(200).send(response);
   } catch (err) {
-    res.status(404).send(err);
+    const responseError = errorResponseTreatment(err);
+    
+    res.status(responseError.status).send(responseError);
   }
 });
 
@@ -29,7 +34,21 @@ app.get('/analysis/last-month', async (req, res) => {
     
     res.status(200).send(response);
   } catch (err) {
-    res.status(404).send(err);
+    const responseError = errorResponseTreatment(err);
+    
+    res.status(responseError.status).send(responseError);
+  }
+});
+
+app.get('/analysis/consulta-verificacao', async (req, res) => {
+  try {
+    const response = await consultVerification.run(req);
+    
+    res.status(200).send(response);
+  } catch (err) {
+    const responseError = errorResponseTreatment(err);
+    
+    res.status(responseError.status).send(responseError);
   }
 });
 
