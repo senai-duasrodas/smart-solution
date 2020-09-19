@@ -1,5 +1,5 @@
 const GetUserAutentication = require('../integration/getUserAuthentication.js');
-const GetOrderSummaryData = require('../datasource/getOrderSummaryData');
+const GetOrderSummaryData = require('../datasource/GetOrderSummaryData');
 
 
 module.exports = class GetOrderSummary {
@@ -18,23 +18,23 @@ module.exports = class GetOrderSummary {
   async run() {
     try {
       await this._validateSession();
-      
+
       const summary = await this._getOrderSummary();
 
       return summary;
     } catch (err) {
       throw err;
     } finally {
-      this._getSummaryData.closeConnection();
+      await this._getSummaryData.closeConnection();
     }
   }
 
   async _getOrderSummary() {
     try {
+      await this._getSummaryData.createConnection();
+
       const orders = await this._getSummaryData.getSummary();
       
-      if (!orders) throw 'could not find orders';
-
       return orders;
     } catch (err) {
       throw err;
