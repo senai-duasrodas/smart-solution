@@ -76,7 +76,7 @@ export default {
     },
     async listVerifications() {
       try {
-        const response = await this.$http.get('verificacao/listagem');
+        const response = await this.$http.microserviceAnalisis('analysis/consulta-verificacao');
 
         if (response.length !== undefined)
           this.dataVerification.verifications_list = [...response];
