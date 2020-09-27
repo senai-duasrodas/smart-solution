@@ -21,6 +21,13 @@ const dashboard = [
     web: true,
   },
   {
+    name: 'Apontamentos',
+    link: '/consulta-apontamentos',
+    icon: 'fas fa-clipboard-list',
+    mobile: true,
+    web: true,
+  },
+  {
     name: 'Consultas',
     link: '/consultas',
     icon: 'fa fa-search',

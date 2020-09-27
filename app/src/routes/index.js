@@ -11,6 +11,7 @@ const Verificacao = () => import('../views/Movimentations/Verificacao.vue');
 const Consulta = () => import('../views/Movimentations/consult/Consulta.vue');
 const Profile = () => import('../views/Core/Profile.vue');
 const ConsultaVerificacoes = () => import('../views/Analysis/ConsultaVerificacoes');
+const ConsultaApontamentos = () => import('../views/Analysis/ConsultaApontamentos');
 
 const CadastroEquipamento = () => import('../views/Registers/Cruds/CadastroEquipamento.vue');
 const CadastroLocalInstalacao = () => import('../views/Registers/Cruds/CadastroLocalInstalacao.vue');
@@ -116,6 +117,12 @@ const routes = [
     path: '/consulta-verificacoes',
     name: 'Verificações',
     component: ConsultaVerificacoes,
+    meta: { requireAuth: true },
+  },
+  {
+    path: '/consulta-apontamentos',
+    name: 'Apontamentos',
+    component: ConsultaApontamentos,
     meta: { requireAuth: true },
   },
   {
