@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 
 const summary = require('./summary/get');
 const lastMonth = require('./orderByMonth/get');
+const orderNote = require('./orderNote/get');
 
 const app = express();
 
@@ -26,6 +27,16 @@ app.get('/analysis/order-summary', async (req, res) => {
 app.get('/analysis/last-month', async (req, res) => {
   try {
     const response = await lastMonth.run(req);
+    
+    res.status(200).send(response);
+  } catch (err) {
+    res.status(404).send(err);
+  }
+});
+
+app.get('/analysis/order-note', async (req, res) => {
+  try {
+    const response = await orderNote.run(req);
     
     res.status(200).send(response);
   } catch (err) {

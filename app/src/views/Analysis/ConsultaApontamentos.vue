@@ -1,13 +1,13 @@
 <template>
-  <div v-if="dataVerification.verifications_list.length">
+  <div v-if="dataOrderNote.order_note_list.length">
     <div v-if="!isMobile">
       <pending-verifications-web
-        :verifications-data="dataVerification"
+        :verifications-data="dataOrderNote"
       />
     </div>
     <div v-if="isMobile">
-      <pending-verifications-mobile
-        :verifications-data="dataVerification"
+      <appointment-notes
+        :appointment-notes-data="dataOrderNote"
       />
     </div>
   </div>
@@ -20,14 +20,14 @@ import { mapGetters } from 'vuex';
 export default {
   components: {
     pendingVerificationsWeb: () => import('../Core/components/pending-verifications-web/PendingVerificationsWeb.vue'),
-    pendingVerificationsMobile: () => import('../Core/components/pending-verifications-mobile/PendingVerificationsMobile.vue'),
+    appointmentNotes: () => import('../Core/components/appointment-notes-mobile/AppointmentNotes.vue'),
   },
   data() {
     return {
       state: {
         view: 'verifications',
       },
-      dataVerification: {
+      dataOrderNote: {
         columns: ['ordemServico_idOrdemServico', 'Solicitante', 'Reporte', 'Manutentor', 'actions'],
         columnsMobile: ['ordemServico_idOrdemServico'],
         options: {
@@ -53,7 +53,7 @@ export default {
           perPageValues: [],
           sortable: ['ordemServico_idOrdemServico'],
         },
-        verifications_list: [],
+        order_note_list: [],
       },
     };
   },
@@ -65,7 +65,7 @@ export default {
   },
 
   mounted() {
-    this.listVerifications();
+    this.listOrderNote();
     this.setActivity();
     this.$store.commit('addPageName', 'Verificações');
   },
@@ -74,18 +74,20 @@ export default {
     setActivity() {
       this.$http.setActivity(this.$activities.VERIFICATION_CONSULT_OPEN);
     },
-    async listVerifications() {
+    async listOrderNote(user) {
       try {
-        const response = await this.$http.get('verificacao/listagem');
-
-        if (response.length !== undefined)
-          this.dataVerification.verifications_list = [...response];
-        else this.verifications_list.push(response);
-
+        const orders = await this.$http.microserviceAnalisis('analysis/order-note', {
+          headers: { user },
+        });
+        console.log('orders:', orders);
+        console.log('note: ', this.order_note_list);
+        console.log('orders: ', orders.length);
+        if (orders.length !== undefined)
+          this.dataOrderNote.order_note_list = [...orders];
+        else this.dataOrderNote.order_note_list.push(orders);
         this.mobileOptions();
       } catch (err) {
         console.log('err :>> ', err.response || err);
-
         return this.$swal({
           type: 'warning',
           html: getErrors(err),
@@ -95,7 +97,7 @@ export default {
     },
     mobileOptions() {
       if (this.isMobile) {
-        this.dataVerification.options.headings = {
+        this.dataOrderNote.options.headings = {
           ordemServico_idOrdemServico: create => create('span', {
             domProps: { innerHTML: 'Ordem <i class="fas fa-sort"></i>' },
           }),

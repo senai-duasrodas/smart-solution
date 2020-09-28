@@ -3,21 +3,21 @@
     <transition name="slide-side" mode="out-in">
       <div v-if="state.view === 'verifications'" key="verifications" class="content-verifications">
         <div class="card-title d-flex justify-content-center align-items-center">
-          <h3>Análise de Verificações</h3>
+          <h3>Análise de Apontamentos</h3>
         </div>
         <card fullWidth>
           <div class="table-verifications">
             <v-client-table
               ref="table_verification"
-              v-model="listVerificationsStatus"
-              :columns="verificationsData.columnsMobile"
-              :options="verificationsData.options"
+              v-model="AppointmentNotesStatus"
+              :columns="AppointmentNotesData.columnsMobile"
+              :options="AppointmentNotesData.options"
             >
               <template slot="ordemServico_idOrdemServico" slot-scope="{ row }">
                 <strong>{{ row.resumo }}</strong>
                 <div class="d-flex">
                   <span>
-                    {{ typeVerification(row.tipoManutencao_idtipoManutencao) }}
+                    {{ AppointmentNote(row.tipoManutencao_idtipoManutencao) }}
                   </span>
                 </div>
                 <div class="d-flex ">
@@ -86,7 +86,7 @@ import { getErrors, getToken } from '../../../../utils/utils';
 export default {
   name: 'PendingVerificationsWeb',
   props: {
-    verificationsData: {
+    AppointmentNotesData: {
       type: Object,
       required: true,
       default: () => ({}),
@@ -108,42 +108,43 @@ export default {
     };
   },
   computed: {
-    listVerificationsStatus() {
-      const orders = this.verificationsData.verifications_list.map(i => (i.ordemServico_idOrdemServico));
+    AppointmentNotesStatus() {
+      console.log('AppointmentNotesData: ', this.AppointmentNotesData);
+      // const orders = this.AppointmentNotesData.order_note_list.map(i => ( i.idOrdemServico));
 
-      const orders_exist = [...new Set(orders)];
+      // const orders_exist = [...new Set(orders)];
 
-      const data_table = orders_exist.map(i => this.verificationsData.verifications_list.find(j => j.ordemServico_idOrdemServico === i));
+      // const data_table = orders_exist.map(i => this.AppointmentNotesData.verifications_list.find(j => j.ordemServico_idOrdemServico === i));
 
-      for (const order of orders_exist) {
-        for (const round_order of this.typeVerifications) {
-          const exist = this.verificationsData.verifications_list.find(i => i.ordemServico_idOrdemServico === order
-                                                        && i.tipoVerificacao === round_order);
-          const order_id = data_table.findIndex(i => i.ordemServico_idOrdemServico === order);
+      // for (const order of orders_exist) {
+      //   for (const round_order of this.typeVerifications) {
+      //     const exist = this.AppointmentNotesData.verifications_list.find(i => i.ordemServico_idOrdemServico === order &&
+      //                                                   i.tipoVerificacao === round_order);
+      //     const order_id = data_table.findIndex(i => i.ordemServico_idOrdemServico === order);
 
-          if (exist !== undefined && round_order === 1)
-            data_table[order_id].icon_report = 'fas fa-check';
-          else if (exist === undefined && round_order === 1)
-            data_table[order_id].icon_report = 'fas fa-times';
-          else if (exist !== undefined && round_order === 2)
-            data_table[order_id].icon_maintainer = 'fas fa-check';
-          else if (exist === undefined && round_order === 2)
-            data_table[order_id].icon_maintainer = 'fas fa-times';
-          else if (exist !== undefined && round_order === 3)
-            data_table[order_id].icon_requester = 'fas fa-check';
-          else if (exist === undefined && round_order === 3)
-            data_table[order_id].icon_requester = 'fas fa-times';
-        }
-      }
-      return data_table;
+      //     if (exist !== undefined && round_order === 1)
+      //       data_table[order_id].icon_report = 'fas fa-check';
+      //     else if (exist === undefined && round_order === 1)
+      //       data_table[order_id].icon_report = 'fas fa-times';
+      //     else if (exist !== undefined && round_order === 2)
+      //       data_table[order_id].icon_maintainer = 'fas fa-check';
+      //     else if (exist === undefined && round_order === 2)
+      //       data_table[order_id].icon_maintainer = 'fas fa-times';
+      //     else if (exist !== undefined && round_order === 3)
+      //       data_table[order_id].icon_requester = 'fas fa-check';
+      //     else if (exist === undefined && round_order === 3)
+      //       data_table[order_id].icon_requester = 'fas fa-times';
+      //   }
+      // }
+      return this.AppointmentNotesData;
     },
     modalData() {
       const data_modal = [];
       if (this.rowModalOpen.ordemServico_idOrdemServico !== undefined) {
         for (const i of this.typeVerifications) {
-          data_modal.push({ ...this.verificationsData.verifications_list.find(
-            j => j.ordemServico_idOrdemServico === this.rowModalOpen.ordemServico_idOrdemServico
-                && j.tipoVerificacao === i) });
+          data_modal.push({ ...this.AppointmentNotesData.verifications_list.find(
+            j => j.ordemServico_idOrdemServico === this.rowModalOpen.ordemServico_idOrdemServico &&
+                j.tipoVerificacao === i) });
           if (data_modal[i-1] !== undefined) {
             data_modal[i-1].dataVerificacao = this.$moment(data_modal[i-1].dataVerificacao)
               .format('DD-MM-YYYY');
@@ -168,7 +169,7 @@ export default {
 
   mounted() {
     console.log('teste: ');
-    console.log('verificationsData: ', this.verificationsData);
+    console.log('AppointmentNotesData: ', this.AppointmentNotesData);
     this.$store.commit('addPageName', 'Verificações');
   },
 
@@ -222,7 +223,7 @@ export default {
       this.$store.commit('addPageName', 'Verificações');
       this.$set(this.state, 'view', 'verifications');
     },
-    typeVerification(type) {
+    AppointmentNote(type) {
       if (type === 1)
         return 'Administrador';
       else if (type === 2)
