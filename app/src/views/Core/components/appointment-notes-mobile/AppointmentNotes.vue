@@ -15,19 +15,19 @@
             >
               <template slot="ordemServico_idOrdemServico" slot-scope="{ row }">
                 <strong>{{ row.resumo }}</strong>
+                <div class="d-flex ">
+                  <span>Ordem: {{ row.idOrdemServico }}</span>
+                </div>
                 <div class="d-flex">
                   <span>
-                    {{ AppointmentNote(row.tipoManutencao_idtipoManutencao) }}
+                    Tipo Manutenção: {{ typeMaintance(row.tipoManutencao_idtipoManutencao) }}
                   </span>
-                </div>
-                <div class="d-flex ">
-                  <span>Ordem: {{ row.ordemServico_idOrdemServico }}</span>
                 </div>
                 <div class="d-flex justify-content-between">
                   <span>Data: {{ moment(row.dataVerificacao).format('DD/MM/YYYY') }}</span>
                 </div>
                 <div class="d-flex ">
-                  <span>{{ resolvedProblem(row.problemaResolvido) }}</span>
+                  <span>{{ row.descricao_atividade }}</span>
                 </div>
               </template>
             </v-client-table>
@@ -53,7 +53,7 @@
                       <div>
                         <span class="user_detail_verification">
                           <i class="fas fa-lightbulb"></i>
-                          Problema: {{ item.problemaResolvidoDescricao }}
+                          Situação: {{ item.problemaResolvidoDescricao }}
                         </span>
                       </div>
                     </div>
@@ -136,7 +136,7 @@ export default {
       //       data_table[order_id].icon_requester = 'fas fa-times';
       //   }
       // }
-      return this.AppointmentNotesData;
+      return this.AppointmentNotesData.order_note_list;
     },
     modalData() {
       const data_modal = [];
@@ -212,6 +212,14 @@ export default {
     async openModalDetailVerifications(row) {
       this.rowModalOpen = row;
       this.showVerificationModal();
+    },
+    typeMaintance(maintance) {
+      console.log('maintance:', maintance);
+      if (maintance === 1)
+        return 'Corretiva';
+      else if (maintance === 2)
+        return 'Preventiva';
+      return 'Rota';
     },
     async showVerificationModal() {
       this.$refs['my-modal'].show();
