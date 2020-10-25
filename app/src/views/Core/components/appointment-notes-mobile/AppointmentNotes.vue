@@ -26,9 +26,6 @@
                 <div class="d-flex justify-content-between">
                   <span>Data: {{ moment(row.dataVerificacao).format('DD/MM/YYYY') }}</span>
                 </div>
-                <div class="d-flex ">
-                  <span>{{ row.descricao_atividade }}</span>
-                </div>
               </template>
             </v-client-table>
           </div>
@@ -318,7 +315,7 @@ export default {
           box-shadow: none !important;
         }
       }
-      .card-title{
+      .card-title {
         h3 {
           font-family: 'roboto';
           color: #E66E6D;

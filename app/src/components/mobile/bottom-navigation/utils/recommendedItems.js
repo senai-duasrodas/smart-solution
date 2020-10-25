@@ -70,5 +70,15 @@ export const recommendedItems = {
       commonOption,
     ],
   },
+  '/consulta-apontamentos': {
+    options: [
+      {
+        name: 'Apontamentos',
+        icon: 'fa-home',
+        actions: () => { store.state.showConsultFilter = !store.state.showConsultFilter; },
+      },
+      commonOption,
+    ],
+  },
 };
 

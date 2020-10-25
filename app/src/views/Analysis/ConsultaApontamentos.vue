@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       state: {
-        view: 'verifications',
+        view: 'appointments',
       },
       dataOrderNote: {
         columns: ['ordemServico_idOrdemServico', 'Solicitante', 'Reporte', 'Manutentor', 'actions'],
@@ -67,7 +67,7 @@ export default {
   mounted() {
     this.listOrderNote();
     this.setActivity();
-    this.$store.commit('addPageName', 'Verificações');
+    this.$store.commit('addPageName', 'Apontamentos');
   },
 
   methods: {

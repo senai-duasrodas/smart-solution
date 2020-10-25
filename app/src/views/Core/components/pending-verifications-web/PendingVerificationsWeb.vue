@@ -112,7 +112,9 @@ export default {
 
       const orders_exist = [...new Set(orders)];
 
-      const data_table = orders_exist.map(i => this.verificationsData.verifications_list.find(j => j.ordemServico_idOrdemServico === i));
+      const data_table = orders_exist.map(i => this.verificationsData.verifications_list.find(
+        j => j.ordemServico_idOrdemServico === i
+      ));
 
       for (const order of orders_exist) {
         for (const round_order of this.typeVerifications) {
