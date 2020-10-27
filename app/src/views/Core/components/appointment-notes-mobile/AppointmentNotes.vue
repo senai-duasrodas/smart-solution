@@ -26,6 +26,11 @@
                 <div class="d-flex justify-content-between">
                   <span>Data: {{ moment(row.dataVerificacao).format('DD/MM/YYYY') }}</span>
                 </div>
+                <div class="d-flex justify-content-end">
+                  <smart-button small class="mx-1" @click.native="openOrderNotes(row)">
+                    <span>Detalhar</span>
+                  </smart-button>
+                </div>
               </template>
             </v-client-table>
           </div>
@@ -34,7 +39,7 @@
           >
             <div class="d-block text">
               <div class="text-center">
-                <h3>Situação de Verificações</h3>
+                <h3>Situação dos Apontamentos</h3>
               </div>
               <div class="my-3 d-flex flex-column">
                 <div v-if="rowModalOpen.ordemServico_idOrdemServico !== undefined">
@@ -68,7 +73,9 @@
                 </div>
               </div>
               <div class="d-flex justify-content-center">
-                <cancel-button label="Fechar" @click.native="closeModal()" />
+                <smart-button small class="mx-1" @click.native="closeModal(row)">
+                  <span>Fechar</span>
+                </smart-button>
               </div>
             </div>
           </b-modal>
@@ -175,9 +182,6 @@ export default {
       this.modalHasError = false;
       this.data_modal = [];
     },
-    openOrder(props) {
-      this.getOrderDetail(props);
-    },
     async getOrderDetail(props) {
       try {
         const order = { idOrdemServico: props.ordemServico_idOrdemServico };
@@ -206,7 +210,7 @@ export default {
         });
       }
     },
-    async openModalDetailVerifications(row) {
+    async openOrderNotes(row) {
       this.rowModalOpen = row;
       this.showVerificationModal();
     },
