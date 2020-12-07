@@ -70,6 +70,9 @@
           </b-tab>
         </b-tabs>
       </div>
+      <!-- {{ availableMaintainers }} -->
+
+      <!-- segundo arrray: {{ maintainersInOrder + idOrdemServico}}  -->
     </b-modal>
   </section>
 </template>
@@ -82,6 +85,7 @@ export default {
   props: {
     availableMaintainers: { type: Array, default: () => [] },
     maintainersInOrder: { type: Array, default: () => [] },
+    idOrdemServico : { type: Number, default: () => 0}
   },
   componentes: {
     // componentes usados

@@ -15,6 +15,7 @@
         key="orderDetail"
         class="detail-content"
       >
+      
         <DetailCardWrapper
           :order="order"
           :is-order-assumed="isOrderAssumed"
@@ -74,6 +75,7 @@
       v-if="showInviteMaintainer"
       :available-maintainers="availableMaintainers"
       :maintainers-in-order="maintainersInOrder"
+      :idOrdemServico="order.idOrdemServico"
       @update:resetModal="resetModal"
       @update:addMaintainer="addMaintainer"
     />
