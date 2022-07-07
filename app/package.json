@@ -15,7 +15,7 @@
     "core-js": "^3.3.2",
     "deep-object-js": "^1.1.1",
     "lodash": "^4.17.19",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "node-sass": "^4.13.0",
     "sass-loader": "^8.0.0",
     "vue": "^2.6.10",
